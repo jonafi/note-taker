@@ -1,12 +1,13 @@
 // Dependencies
 // =============================================================
-var express = require("express");
-var path = require("path");
+let express = require("express");
+let path = require("path");
+
 
 // Sets up the Express App
 // =============================================================
-var app = express();
-var PORT = process.env.PORT || 3000 ;
+let app = express();
+let PORT = process.env.PORT || 3000 ;
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
@@ -14,7 +15,7 @@ app.use(express.json());
 
 // NOTES (DATA)
 // =============================================================
-var notes = [
+let notes = [
   // {
   //   routeName: "yoda",
   //   name: "Yoda",
@@ -27,48 +28,51 @@ var notes = [
 // Routes
 // =============================================================
 
-// Basic route that sends the user first to the AJAX Page
+// main page
 app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "public/index.html"));
 });
+// notes page
+app.get("/notes", function(req, res) {
+    res.sendFile(path.join(__dirname, "public/notes.html"));
+  });
 
+// // Displays all characters
+// app.get("/api/waitlist", function(req, res) {
+//   return res.json(waitlist);
+// });
 
-// Displays all characters
-app.get("/api/waitlist", function(req, res) {
-  return res.json(waitlist);
-});
+// // Displays a single character, or returns false
+// app.get("/api/waitlist/:customer", function(req, res) {
+//   let chosen = req.params.character;
 
-// Displays a single character, or returns false
-app.get("/api/waitlist/:customer", function(req, res) {
-  var chosen = req.params.character;
+//   console.log(chosen);
 
-  console.log(chosen);
+//   for (let i = 0; i < waitlist.length; i++) {
+//     if (chosen === waitlist[i].routeName) {
+//       return res.json(waitlist[i]);
+//     }
+//   }
 
-  for (var i = 0; i < waitlist.length; i++) {
-    if (chosen === waitlist[i].routeName) {
-      return res.json(waitlist[i]);
-    }
-  }
+//   return res.json(false);
+// });
 
-  return res.json(false);
-});
+// // Create New Characters - takes in JSON input
+// app.post("/api/waitlist", function(req, res) {
+//   // req.body hosts is equal to the JSON post sent from the user
+//   // This works because of our body parsing middleware
+//   let newCustomer = req.body;
 
-// Create New Characters - takes in JSON input
-app.post("/api/waitlist", function(req, res) {
-  // req.body hosts is equal to the JSON post sent from the user
-  // This works because of our body parsing middleware
-  var newCustomer = req.body;
+//   // Using a RegEx Pattern to remove spaces from newCharacter
+//   // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
+//   newCustomer.routeName = newCustomer.name.replace(/\s+/g, "").toLowerCase();
 
-  // Using a RegEx Pattern to remove spaces from newCharacter
-  // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-  newCustomer.routeName = newCustomer.name.replace(/\s+/g, "").toLowerCase();
+//   console.log(newCustomer);
 
-  console.log(newCustomer);
+//   characters.push(newCustomer);
 
-  characters.push(newCustomer);
-
-  res.json(newCustomer);
-});
+//   res.json(newCustomer);
+// });
 
 // Starts the server to begin listening
 // =============================================================
