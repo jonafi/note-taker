@@ -27,15 +27,15 @@ app.get("/api/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "public/index.html"));
   });
 
-// Create New Characters - takes in JSON input
+// adding notes
 app.post("/api/notes", function(req, res) {
-  // req.body hosts is equal to the JSON post sent from the user
-  // This works because of our body parsing middleware
-  let newNote = req.body;  
-  console.log(newNote);
-  //write the newNote object to db.json?
-
-});
+  let newNote = JSON.stringify(req.body);  
+  let dbLocation = path.join(__dirname, "db/db.json");
+  //console.log(dbLocation);
+  fs.appendFile(dbLocation, newNote, function(err){
+    if(err) throw err;
+    });
+ });
 
 // // Displays all characters
 // app.get("/api/waitlist", function(req, res) {
