@@ -22,20 +22,30 @@ app.get("/api/notes", function(req, res) {
   res.sendFile(path.join(__dirname, "db/db.json"));
 });
 
-// catchall & main page
-  app.get("*", function(req, res) {
-    res.sendFile(path.join(__dirname, "public/index.html"));
-  });
 
 // adding notes
 app.post("/api/notes", function(req, res) {
   let newNote = JSON.stringify(req.body);  
   let dbLocation = path.join(__dirname, "db/db.json");
   //console.log(dbLocation);
+  fs.readFile(dbLocation, 'utf8', function(err,data){
+    if(err) throw err;
+    console.log(data);
+  });
+
+
   fs.appendFile(dbLocation, newNote, function(err){
     if(err) throw err;
     });
+  res.sendFile(path.join(__dirname, "db/db.json"));
  });
+
+
+
+ // catchall & main page
+ app.get("*", function(req, res) {
+  res.sendFile(path.join(__dirname, "public/index.html"));
+});
 
 // // Displays all characters
 // app.get("/api/waitlist", function(req, res) {
