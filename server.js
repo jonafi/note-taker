@@ -1,41 +1,41 @@
-// Dependencies
-// =============================================================
+// Dependencies ////////////////////////////////////////////////////////////
 let express = require("express");
 let path = require("path");
+let fs = require("fs");
 
+// Sets up the Express App and middlewear /////////////////////////////////
 
-// Sets up the Express App
-// =============================================================
 let app = express();
 let PORT = process.env.PORT || 3000 ;
-
-// Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// NOTES (DATA)
-// =============================================================
-let notes = [
-  // {
-  //   routeName: "yoda",
-  //   name: "Yoda",
-  //   role: "Jedi Master",
-  //   age: 900,
-  //   forcePoints: 2000
-  // }
-];
+// Routes //////////////////////////////////////////////////////////////////
 
-// Routes
-// =============================================================
-
-// main page
-app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "public/index.html"));
-});
 // notes page
 app.get("/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "public/notes.html"));
   });
+
+  // api for grabbing info
+app.get("/api/notes", function(req, res) {
+  res.sendFile(path.join(__dirname, "db/db.json"));
+});
+
+// catchall & main page
+  app.get("*", function(req, res) {
+    res.sendFile(path.join(__dirname, "public/index.html"));
+  });
+
+// Create New Characters - takes in JSON input
+app.post("/api/notes", function(req, res) {
+  // req.body hosts is equal to the JSON post sent from the user
+  // This works because of our body parsing middleware
+  let newNote = req.body;  
+  console.log(newNote);
+  //write the newNote object to db.json?
+
+});
 
 // // Displays all characters
 // app.get("/api/waitlist", function(req, res) {
@@ -74,8 +74,8 @@ app.get("/notes", function(req, res) {
 //   res.json(newCustomer);
 // });
 
-// Starts the server to begin listening
-// =============================================================
+// Server start and console message //////////////////////////////
+ 
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
 });
