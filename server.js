@@ -42,10 +42,21 @@ app.post("/api/notes", function(req, res) {
 
 
 
- // catchall & main page
- app.get("*", function(req, res) {
+ // main page
+ app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "public/index.html"));
 });
+
+ // css hack
+ app.get("/assets/css/styles.css", function(req, res) {
+  res.sendFile(path.join(__dirname, "public/assets/css/styles.css"));
+});
+
+ // js hack
+ app.get("/assets/js/index.js", function(req, res) {
+  res.sendFile(path.join(__dirname, "public/assets/js/index.js"));
+});
+
 
 // // Displays all characters
 // app.get("/api/waitlist", function(req, res) {
