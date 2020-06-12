@@ -2,6 +2,7 @@
 let express = require("express");
 let path = require("path");
 let fs = require("fs");
+let colors = require('colors');
 
 // Sets up the Express App and middlewear /////////////////////////////////
 
@@ -60,5 +61,5 @@ app.get("/api/notes/:id", function(req, res) {
 // Server start and console message //////////////////////////////
  
 app.listen(PORT, function() {
-  console.log("App listening on PORT " + PORT);
+  console.log("App listening on PORT ".green + colors.brightGreen.underline(PORT));
 });
