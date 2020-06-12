@@ -1,4 +1,5 @@
 // Dependencies ////////////////////////////////////////////////////////////
+
 let express = require("express");
 let path = require("path");
 let fs = require("fs");
@@ -27,20 +28,24 @@ app.get("/api/notes", function(req, res) {
 
 // adding notes
 app.post("/api/notes", function(req, res) {
-  let newNote = JSON.stringify(req.body);  
+  let newNote = req.body;  
   let dbLocation = path.join(__dirname, "db/db.json");
   fs.readFile(dbLocation, 'utf8', function(err,data){
     if(err) throw err;
-    console.log(data);
-  });
 
-
-  fs.appendFile(dbLocation, newNote, function(err){
+    let update = data + '\n' + JSON.stringify(newNote);
+    // let update = JSON.parse(data)
+    // update = update.push(newNote)
+    // console.log(JSON.stringify(update));
+    console.log(update);
+    fs.writeFile(dbLocation, update, function(err){
     if(err) throw err;
     });
   res.sendFile(path.join(__dirname, "db/db.json"));
- });
+  res.sendFile(path.join(__dirname, "public/notes.html"));
 
+ });
+});
 
 
  // main page
@@ -61,5 +66,5 @@ app.get("/api/notes/:id", function(req, res) {
 // Server start and console message //////////////////////////////
  
 app.listen(PORT, function() {
-  console.log("App listening on PORT ".green + colors.brightGreen.underline(PORT));
+  console.log("App listening on PORT ".cyan + colors.brightGreen.underline(PORT));
 });
