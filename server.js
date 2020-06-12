@@ -9,6 +9,7 @@ let app = express();
 let PORT = process.env.PORT || 3000 ;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static('public'));
 
 // Routes //////////////////////////////////////////////////////////////////
 
@@ -46,15 +47,6 @@ app.post("/api/notes", function(req, res) {
   res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
- // css hack
- app.get("/assets/css/styles.css", function(req, res) {
-  res.sendFile(path.join(__dirname, "public/assets/css/styles.css"));
-});
-
- // js hack
- app.get("/assets/js/index.js", function(req, res) {
-  res.sendFile(path.join(__dirname, "public/assets/js/index.js"));
-});
 
 
 // Display a single note
