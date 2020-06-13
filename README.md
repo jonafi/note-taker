@@ -14,7 +14,7 @@ Express.js driven note taker
 
 ## Usage 
 
-The application is live and hoste on [Heroku](http://john-ferro-note-taker.herokuapp.com)
+The application is live and hosted on [Heroku](http://john-ferro-note-taker.herokuapp.com)
 
 
 
