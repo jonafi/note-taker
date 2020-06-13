@@ -14,9 +14,7 @@ Express.js driven note taker
 
 ## Usage 
 
-The server is currently live and available at heroku
-
-    [Live Site](https://john-ferro-note-taker.herokuapp.com)
+The application is live and hoste on [Heroku](http://john-ferro-note-taker.herokuapp.com)
 
 
 
