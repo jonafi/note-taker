@@ -32,12 +32,11 @@ app.post("/api/notes", function(req, res) {
   let dbLocation = path.join(__dirname, "db/db.json");
   fs.readFile(dbLocation, 'utf8', function(err,data){
     if(err) throw err;
+    let oldData = JSON.parse(data);
+    newNote.id = oldData.length;
+    oldData.push(newNote);
+    let update = JSON.stringify(oldData);
 
-    let update = data + '\n' + JSON.stringify(newNote);
-    // let update = JSON.parse(data)
-    // update = update.push(newNote)
-    // console.log(JSON.stringify(update));
-    console.log(update);
     fs.writeFile(dbLocation, update, function(err){
     if(err) throw err;
     });
@@ -56,9 +55,33 @@ app.post("/api/notes", function(req, res) {
 
 
 // Display a single note
-app.get("/api/notes/:id", function(req, res) {
+app.delete("/api/notes/:id", function(req, res) {
   let noteIndex = req.params.id;
-  console.log(noteIndex)
+  let dbLocation = path.join(__dirname, "db/db.json");
+
+  //console.log(noteIndex)
+
+  fs.readFile(dbLocation, 'utf8', function(err,data){
+    if(err) throw err;
+    let oldData = JSON.parse(data);
+    for (let i=0; i<oldData.length;i++){
+      // console.log(oldData[i].id);
+      // console.log(noteIndex);
+
+      if(oldData[i].id==noteIndex){
+        oldData.splice(i,1);
+        console.log(oldData);
+      }
+    }
+  
+    let update = JSON.stringify(oldData);
+    fs.writeFile(dbLocation, update, function(err){
+      if(err) throw err;
+      });
+
+  });
+
+
 });
 
 
