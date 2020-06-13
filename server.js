@@ -33,10 +33,11 @@ app.post("/api/notes", function(req, res) {
   fs.readFile(dbLocation, 'utf8', function(err,data){
     if(err) throw err;
     let oldData = JSON.parse(data);
-    newNote.id = oldData.length;
+    newNote.id = oldData.length+newNote.title;
+    
     oldData.push(newNote);
     let update = JSON.stringify(oldData);
-
+    console.log(update);
     fs.writeFile(dbLocation, update, function(err){
     if(err) throw err;
     });
@@ -65,8 +66,6 @@ app.delete("/api/notes/:id", function(req, res) {
     if(err) throw err;
     let oldData = JSON.parse(data);
     for (let i=0; i<oldData.length;i++){
-      // console.log(oldData[i].id);
-      // console.log(noteIndex);
 
       if(oldData[i].id==noteIndex){
         oldData.splice(i,1);
@@ -78,13 +77,8 @@ app.delete("/api/notes/:id", function(req, res) {
     fs.writeFile(dbLocation, update, function(err){
       if(err) throw err;
       });
-
   });
-
-
 });
-
-
 
 // Server start and console message //////////////////////////////
  
