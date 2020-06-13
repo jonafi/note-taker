@@ -32,16 +32,20 @@ app.post("/api/notes", function(req, res) {
   let dbLocation = path.join(__dirname, "db/db.json");
   fs.readFile(dbLocation, 'utf8', function(err,data){
     if(err) throw err;
+    // grab the existing JSON and turn it into an array
     let oldData = JSON.parse(data);
+    // add unique id based on number of notes and note title
     newNote.id = oldData.length+newNote.title;
-    
+    // add the new note
     oldData.push(newNote);
+    // turn it BACK into a string
     let update = JSON.stringify(oldData);
-    console.log(update);
+    //rewrite the JSON file
     fs.writeFile(dbLocation, update, function(err){
     if(err) throw err;
     });
-  res.sendFile(path.join(__dirname, "db/db.json"));
+
+  //res.sendFile(path.join(__dirname, "db/db.json"));
   res.sendFile(path.join(__dirname, "public/notes.html"));
 
  });
@@ -60,16 +64,14 @@ app.delete("/api/notes/:id", function(req, res) {
   let noteIndex = req.params.id;
   let dbLocation = path.join(__dirname, "db/db.json");
 
-  //console.log(noteIndex)
-
-  fs.readFile(dbLocation, 'utf8', function(err,data){
+   fs.readFile(dbLocation, 'utf8', function(err,data){
     if(err) throw err;
     let oldData = JSON.parse(data);
     for (let i=0; i<oldData.length;i++){
-
-      if(oldData[i].id==noteIndex){
+      
+      if(oldData[i].id===noteIndex){
+        //remove the matching note
         oldData.splice(i,1);
-        console.log(oldData);
       }
     }
   
@@ -78,6 +80,8 @@ app.delete("/api/notes/:id", function(req, res) {
       if(err) throw err;
       });
   });
+  res.sendFile(path.join(__dirname, "public/notes.html"));
+
 });
 
 // Server start and console message //////////////////////////////
